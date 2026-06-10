@@ -1,0 +1,237 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --primary: #6561a8;
+  --primary-light: #8b86d6;
+  --primary-dark: #4f4b91;
+
+  --bg: #f6f6fb;
+  --card: #ffffff;
+  --text: #252531;
+  --muted: #6d6a7c;
+  --border: #e6e3f4;
+
+  --success: #4caf50;
+  --success-bg: #eaf8ee;
+  --danger: #e57373;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 18px;
+  font-family: "Comfortaa", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  max-width: 1150px;
+  margin: 0 auto;
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  padding: 30px;
+  border-radius: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 12px 28px rgba(101, 97, 168, 0.25);
+}
+
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: 36px;
+}
+
+.hero p {
+  margin: 0;
+  opacity: 0.95;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 6px 18px rgba(101, 97, 168, 0.08);
+}
+
+.panel h2,
+.panel h3 {
+  margin-top: 0;
+  color: var(--primary);
+}
+
+input,
+select {
+  width: 100%;
+  padding: 14px;
+  margin: 7px 0 12px;
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  font-family: "Comfortaa", Arial, sans-serif;
+  font-size: 15px;
+  background: white;
+  color: var(--text);
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+button {
+  width: 100%;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 16px;
+  background: var(--primary);
+  color: white;
+  font-family: "Comfortaa", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.logout {
+  float: right;
+  width: auto;
+  background: white;
+  color: var(--primary);
+}
+
+.logout:hover {
+  background: #f2f0ff;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.card {
+  background: white;
+  border: 2px solid transparent;
+  border-radius: 22px;
+  padding: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(101, 97, 168, 0.07);
+  transition: 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(101, 97, 168, 0.16);
+}
+
+.card strong {
+  color: var(--primary);
+}
+
+.skill {
+  background: #faf9ff;
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  padding: 14px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+.skill.done {
+  background: var(--success-bg);
+  border-color: #7ad18a;
+}
+
+.skill span {
+  line-height: 1.5;
+}
+
+.skill small {
+  color: var(--muted);
+}
+
+.skill button {
+  width: auto;
+  min-width: 110px;
+}
+
+.progress-bg {
+  width: 100%;
+  height: 22px;
+  background: #e8e7f5;
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 14px 0;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+#profileStats {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  body {
+    padding: 12px;
+  }
+
+  .hero {
+    padding: 24px;
+    border-radius: 24px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .panel {
+    padding: 16px;
+  }
+
+  .skill {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .skill button {
+    width: 100%;
+  }
+
+  .logout {
+    float: none;
+    margin-bottom: 14px;
+  }
+}
