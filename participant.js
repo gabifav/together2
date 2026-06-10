@@ -90,55 +90,48 @@ function renderProfile() {
 
   $("progressBar").style.width = percent + "%";
 
-  $("completedSkills").innerHTML = "";
-  $("lockedSkills").innerHTML = "";
+  renderTree(completedSkillIds);
+}
+
+function renderTree(completedSkillIds) {
+  const tree = $("treeView");
+  tree.innerHTML = "";
+
+  const root = document.createElement("div");
+  root.className = "tree-root";
+  root.innerHTML = `🌈 ${selectedParticipant.name}`;
+  tree.appendChild(root);
 
   categories.forEach(category => {
     const categorySkills = skills.filter(s => s.categoryId === category.id);
     if (!categorySkills.length) return;
 
-    const completedInCategory = categorySkills.filter(s =>
-      completedSkillIds.includes(s.id)
-    );
+    const branch = document.createElement("div");
+    branch.className = "tree-branch";
 
-    const lockedInCategory = categorySkills.filter(s =>
-      !completedSkillIds.includes(s.id)
-    );
+    branch.innerHTML = `
+      <div class="branch-line"></div>
+      <div class="branch-title">${category.name}</div>
+      <div class="leaves"></div>
+    `;
 
-    if (completedInCategory.length) {
-      const heading = document.createElement("h3");
-      heading.textContent = category.name;
-      $("completedSkills").appendChild(heading);
+    const leaves = branch.querySelector(".leaves");
 
-      completedInCategory.forEach(skill => {
-        const div = document.createElement("div");
-        div.className = "skill done";
-        div.innerHTML = `
-          <span>
-            <strong>✅ ${skill.name}</strong><br>
-            <small>${skill.xp || 20} XP</small>
-          </span>
-        `;
-        $("completedSkills").appendChild(div);
-      });
-    }
+    categorySkills.forEach(skill => {
+      const done = completedSkillIds.includes(skill.id);
 
-    if (lockedInCategory.length) {
-      const heading = document.createElement("h3");
-      heading.textContent = category.name;
-      $("lockedSkills").appendChild(heading);
+      const leaf = document.createElement("div");
+      leaf.className = done ? "leaf done" : "leaf locked";
 
-      lockedInCategory.forEach(skill => {
-        const div = document.createElement("div");
-        div.className = "skill";
-        div.innerHTML = `
-          <span>
-            <strong>🔒 ${skill.name}</strong><br>
-            <small>Working towards</small>
-          </span>
-        `;
-        $("lockedSkills").appendChild(div);
-      });
-    }
+      leaf.innerHTML = `
+        <span>${done ? "🌿" : "🔒"}</span>
+        <strong>${skill.name}</strong>
+        <small>${done ? `${skill.xp || 20} XP` : "Working towards"}</small>
+      `;
+
+      leaves.appendChild(leaf);
+    });
+
+    tree.appendChild(branch);
   });
 }
