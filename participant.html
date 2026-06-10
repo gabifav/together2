@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Together2 Journey</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="container">
+
+  <header class="hero">
+    <h1>🌈 My Together2 Journey</h1>
+    <p>View skills, progress and achievements</p>
+  </header>
+
+  <section class="panel">
+    <h2>Find Participant</h2>
+    <input id="searchParticipant" placeholder="Type participant name..." />
+    <div id="participants" class="grid"></div>
+  </section>
+
+  <section id="profilePanel" class="panel hidden">
+    <h2 id="profileName"></h2>
+    <p id="profileStats"></p>
+
+    <div class="progress-bg">
+      <div id="progressBar"></div>
+    </div>
+
+    <h3>Completed Skills</h3>
+    <div id="completedSkills"></div>
+
+    <h3>Skills Still Working Towards</h3>
+    <div id="lockedSkills"></div>
+  </section>
+
+</div>
+
+<script type="module" src="participant.js"></script>
+</body>
+</html>
