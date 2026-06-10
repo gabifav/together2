@@ -237,3 +237,15 @@ async function toggleSkill(skill, done) {
     });
   }
 }
+
+$("deleteParticipantBtn").onclick = async () => {
+  if (!selectedParticipant) return;
+
+  const confirmed = confirm(`Delete ${selectedParticipant.name}?`);
+  if (!confirmed) return;
+
+  await deleteDoc(doc(db, "participants", selectedParticipant.id));
+
+  selectedParticipant = null;
+  $("profilePanel").classList.add("hidden");
+};
