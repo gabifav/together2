@@ -77,14 +77,22 @@ function startListeners() {
 
 $("addParticipantBtn").onclick = async () => {
   const name = $("participantName").value.trim();
+
+  const tags = $("participantTags").value
+    .split(",")
+    .map(tag => tag.trim())
+    .filter(tag => tag.length > 0);
+
   if (!name) return;
 
   await addDoc(collection(db, "participants"), {
     name,
+    tags,
     createdAt: serverTimestamp()
   });
 
   $("participantName").value = "";
+  $("participantTags").value = "";
 };
 
 $("addCategoryBtn").onclick = async () => {
