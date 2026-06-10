@@ -404,3 +404,12 @@ button:active {
     justify-content: flex-start;
   }
 }
+.delete-btn{
+  background:#d9534f;
+  color:white;
+  margin-top:20px;
+}
+
+.delete-btn:hover{
+  background:#c9302c;
+}
