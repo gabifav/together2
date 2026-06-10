@@ -1,6 +1,6 @@
 import { firebaseConfig } from "./firebase-config.js";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-a.pp.js";
 
 import {
   getAuth,
@@ -136,7 +136,10 @@ function renderParticipants() {
     .forEach(p => {
       const div = document.createElement("div");
       div.className = "card";
-      div.innerHTML = `<strong>${p.name}</strong>`;
+      div.innerHTML = `
+  <strong>${p.name}</strong><br>
+  <small>${(p.tags || []).join(", ") || "No tags"}</small>
+`;
       div.onclick = () => openParticipant(p);
       $("participants").appendChild(div);
     });
