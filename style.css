@@ -235,3 +235,160 @@ button:active {
     margin-bottom: 14px;
   }
 }
+.tree {
+  position: relative;
+  padding: 20px 0 10px;
+}
+
+.tree::before {
+  content: "";
+  position: absolute;
+  top: 70px;
+  bottom: 20px;
+  left: 50%;
+  width: 10px;
+  background: #6561A8;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  opacity: 0.85;
+}
+
+.tree-root {
+  position: relative;
+  z-index: 2;
+  width: fit-content;
+  margin: 0 auto 34px;
+  background: linear-gradient(135deg, #6561A8, #8B86D6);
+  color: white;
+  padding: 18px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(101, 97, 168, 0.25);
+}
+
+.tree-branch {
+  position: relative;
+  z-index: 2;
+  width: 50%;
+  padding: 16px;
+  margin-bottom: 22px;
+}
+
+.tree-branch:nth-child(odd) {
+  margin-left: 0;
+  padding-right: 42px;
+  text-align: right;
+}
+
+.tree-branch:nth-child(even) {
+  margin-left: 50%;
+  padding-left: 42px;
+  text-align: left;
+}
+
+.branch-line {
+  position: absolute;
+  top: 32px;
+  height: 8px;
+  width: 42px;
+  background: #6561A8;
+  border-radius: 999px;
+}
+
+.tree-branch:nth-child(odd) .branch-line {
+  right: 0;
+}
+
+.tree-branch:nth-child(even) .branch-line {
+  left: 0;
+}
+
+.branch-title {
+  display: inline-block;
+  background: #F1F0FF;
+  color: #6561A8;
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  border: 2px solid #E6E3F4;
+}
+
+.leaves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tree-branch:nth-child(odd) .leaves {
+  justify-content: flex-end;
+}
+
+.leaf {
+  background: white;
+  border: 2px solid #E6E3F4;
+  border-radius: 18px;
+  padding: 12px;
+  min-width: 150px;
+  max-width: 210px;
+  box-shadow: 0 4px 12px rgba(101, 97, 168, 0.08);
+}
+
+.leaf span {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.leaf strong {
+  display: block;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.leaf small {
+  display: block;
+  margin-top: 6px;
+  color: #6d6a7c;
+  font-size: 12px;
+}
+
+.leaf.done {
+  background: #EEF9F0;
+  border-color: #7AD18A;
+}
+
+.leaf.locked {
+  opacity: 0.65;
+}
+
+@media (max-width: 700px) {
+  .tree::before {
+    left: 20px;
+  }
+
+  .tree-root {
+    margin-left: 0;
+  }
+
+  .tree-branch,
+  .tree-branch:nth-child(odd),
+  .tree-branch:nth-child(even) {
+    width: 100%;
+    margin-left: 0;
+    padding-left: 48px;
+    padding-right: 0;
+    text-align: left;
+  }
+
+  .tree-branch:nth-child(odd) .branch-line,
+  .tree-branch:nth-child(even) .branch-line {
+    left: 20px;
+    right: auto;
+    width: 28px;
+  }
+
+  .tree-branch:nth-child(odd) .leaves {
+    justify-content: flex-start;
+  }
+}
