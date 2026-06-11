@@ -8,71 +8,82 @@
 </head>
 
 <body>
-  <div class="container">
+<div class="container">
 
-    <header class="hero">
-      <button id="logoutBtn" class="logout hidden">Logout</button>
-      <h1>Together2 Skill Tree</h1>
-      <p>Staff-created participant skills and progress tracker</p>
-    </header>
+  <header class="hero">
+    <button id="logoutBtn" class="logout hidden">Logout</button>
+    <h1>Together2 Skill Tree</h1>
+    <p>Staff-created participant skills and progress tracker</p>
+  </header>
 
-    <section id="loginPanel" class="panel">
-      <h2>Staff Login</h2>
-      <input id="email" type="email" placeholder="Staff email" />
-      <input id="password" type="password" placeholder="Password" />
-      <button id="loginBtn">Login</button>
+  <section id="loginPanel" class="panel">
+    <h2>Staff Login</h2>
+    <input id="email" type="email" placeholder="Staff email" />
+    <input id="password" type="password" placeholder="Password" />
+    <button id="loginBtn">Login</button>
+  </section>
+
+  <main id="appPanel" class="hidden">
+
+    <section class="panel">
+      <h2>Create Participant</h2>
+      <input id="participantName" placeholder="Participant name" />
+      <input id="participantTags" placeholder="Tags e.g. TAFE, SLES, Good in the Hood" />
+      <button id="addParticipantBtn">Add Participant</button>
     </section>
 
-    <main id="appPanel" class="hidden">
+    <section class="panel">
+      <h2>Create Focus Area / Category</h2>
+      <input id="categoryName" placeholder="Example: Art, Work Experience, TAFE" />
+      <button id="addCategoryBtn">Add Category</button>
+    </section>
 
-      <section class="panel">
-        <h2>Create Participant</h2>
-        <input id="participantName" placeholder="Participant name" />
-        <input id="participantTags" placeholder="Tags e.g. TAFE, SLES, Art Club" />
-        <button id="addParticipantBtn">Add Participant</button>
-      </section>
+    <section class="panel">
+      <h2>Create Skill</h2>
+      <select id="skillCategory"></select>
+      <input id="skillName" placeholder="Example: Completed reflection activity" />
+      <input id="skillXP" type="number" placeholder="XP e.g. 20" />
 
-      <section class="panel">
-        <h2>Create Focus Area / Skill Category</h2>
-        <input id="categoryName" placeholder="Example: Good in the Hood, Art, Work Experience" />
-        <button id="addCategoryBtn">Add Category</button>
-      </section>
+      <label>Visible to</label>
+      <select id="skillVisibleTo">
+        <option value="Everyone">Everyone</option>
+        <option value="TAFE">TAFE only</option>
+        <option value="SLES">SLES only</option>
+        <option value="Good in the Hood">Good in the Hood only</option>
+        <option value="Art Club">Art Club only</option>
+        <option value="Work Experience">Work Experience only</option>
+        <option value="Volunteer">Volunteer only</option>
+      </select>
 
-      <section class="panel">
-        <h2>Create Skill</h2>
-        <select id="skillCategory"></select>
-        <input id="skillName" placeholder="Example: Packed bags independently" />
-        <input id="skillXP" type="number" placeholder="XP e.g. 20" />
-        <button id="addSkillBtn">Add Skill</button>
-      </section>
+      <button id="addSkillBtn">Add Skill</button>
+    </section>
 
-      <section class="panel">
-        <h2>Participants</h2>
-        <input id="searchParticipant" placeholder="Search..." />
-        <div id="participants" class="grid"></div>
-      </section>
+    <section class="panel">
+      <h2>Participants</h2>
+      <input id="searchParticipant" placeholder="Search..." />
+      <div id="participants" class="grid"></div>
+    </section>
 
-      <section id="profilePanel" class="panel hidden">
-        <h2 id="profileName"></h2>
+    <section id="profilePanel" class="panel hidden">
+      <h2 id="profileName"></h2>
+      <p id="profileTags"></p>
+      <p id="profileStats"></p>
 
-        <p id="profileStats"></p>
+      <div class="progress-bg">
+        <div id="progressBar"></div>
+      </div>
 
-        <div class="progress-bg">
-          <div id="progressBar"></div>
-        </div>
+      <h3>Skills</h3>
+      <div id="skillList"></div>
 
-        <h3>Skills</h3>
-        <div id="skillList"></div>
+      <button id="deleteParticipantBtn" class="delete-btn">
+        🗑️ Delete Participant
+      </button>
+    </section>
 
-        <button id="deleteParticipantBtn" class="delete-btn">
-          🗑️ Delete Participant
-        </button>
-      </section>
+  </main>
+</div>
 
-    </main>
-
-  </div>
-
-  <script type="module" src="app.js"></script>
+<script type="module" src="app.js"></script>
 </body>
 </html>
