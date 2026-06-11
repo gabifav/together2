@@ -32,7 +32,19 @@ let selectedParticipant = null;
 const $ = id => document.getElementById(id);
 
 $("loginBtn").onclick = async () => {
-  await signInWithEmailAndPassword(auth, $("email").value, $("password").value);
+  const email = $("email").value.trim();
+  const password = $("password").value;
+
+  if (!email || !password) {
+    alert("Enter email and password");
+    return;
+  }
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    alert(error.message);
+  }
 };
 
 $("logoutBtn").onclick = async () => {
@@ -56,6 +68,7 @@ function startListeners() {
   onSnapshot(collection(db, "participants"), snap => {
     participants = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderParticipants();
+    renderSkills();
   });
 
   onSnapshot(collection(db, "categories"), snap => {
@@ -111,6 +124,7 @@ $("addSkillBtn").onclick = async () => {
   const categoryId = $("skillCategory").value;
   const name = $("skillName").value.trim();
   const xp = Number($("skillXP").value) || 20;
+  const visibleTo = $("skillVisibleTo").value || "Everyone";
 
   if (!categoryId || !name) return;
 
@@ -118,11 +132,13 @@ $("addSkillBtn").onclick = async () => {
     name,
     categoryId,
     xp,
+    visibleTo,
     createdAt: serverTimestamp()
   });
 
   $("skillName").value = "";
   $("skillXP").value = "";
+  $("skillVisibleTo").value = "Everyone";
 };
 
 $("searchParticipant").oninput = renderParticipants;
@@ -136,19 +152,25 @@ function renderParticipants() {
     .forEach(p => {
       const div = document.createElement("div");
       div.className = "card";
+
       div.innerHTML = `
-  <strong>${p.name}</strong><br>
-  <small>${(p.tags || []).join(", ") || "No tags"}</small>
-`;
+        <strong>${p.name}</strong><br>
+        <small>${(p.tags || []).join(", ") || "No tags"}</small>
+      `;
+
       div.onclick = () => openParticipant(p);
       $("participants").appendChild(div);
     });
 }
 
-function openParticipant(p) {
-  selectedParticipant = p;
+function openParticipant(participant) {
+  selectedParticipant = participant;
+
   $("profilePanel").classList.remove("hidden");
-  $("profileName").textContent = p.name;
+  $("profileName").textContent = participant.name;
+  $("profileTags").textContent =
+    "Tags: " + ((participant.tags || []).join(", ") || "No tags");
+
   renderSkills();
 }
 
@@ -163,10 +185,21 @@ function renderCategoryDropdown() {
   });
 }
 
+function skillIsVisibleToParticipant(skill, participant) {
+  if (!skill.visibleTo || skill.visibleTo === "Everyone") return true;
+
+  const participantTags = participant.tags || [];
+  return participantTags.includes(skill.visibleTo);
+}
+
 function renderSkills() {
   if (!selectedParticipant) return;
 
   $("skillList").innerHTML = "";
+
+  const visibleSkills = skills.filter(skill =>
+    skillIsVisibleToParticipant(skill, selectedParticipant)
+  );
 
   const completedForParticipant = completions.filter(
     c => c.participantId === selectedParticipant.id
@@ -174,22 +207,26 @@ function renderSkills() {
 
   const completedSkillIds = completedForParticipant.map(c => c.skillId);
 
+  const visibleCompletedIds = completedSkillIds.filter(id =>
+    visibleSkills.some(skill => skill.id === id)
+  );
+
   const totalXP = completedForParticipant.reduce((sum, c) => {
-    const skill = skills.find(s => s.id === c.skillId);
+    const skill = visibleSkills.find(s => s.id === c.skillId);
     return sum + (skill?.xp || 0);
   }, 0);
 
-  const percent = skills.length
-    ? Math.round((completedSkillIds.length / skills.length) * 100)
+  const percent = visibleSkills.length
+    ? Math.round((visibleCompletedIds.length / visibleSkills.length) * 100)
     : 0;
 
   $("profileStats").textContent =
-    `${completedSkillIds.length}/${skills.length} skills completed • ${totalXP} XP`;
+    `${visibleCompletedIds.length}/${visibleSkills.length} visible skills completed • ${totalXP} XP`;
 
   $("progressBar").style.width = percent + "%";
 
   categories.forEach(cat => {
-    const groupSkills = skills.filter(s => s.categoryId === cat.id);
+    const groupSkills = visibleSkills.filter(s => s.categoryId === cat.id);
     if (!groupSkills.length) return;
 
     const heading = document.createElement("h3");
@@ -205,7 +242,9 @@ function renderSkills() {
       div.innerHTML = `
         <span>
           <strong>${skill.name}</strong><br>
-          <small>${skill.xp || 20} XP</small>
+          <small>
+            ${skill.xp || 20} XP • Visible to: ${skill.visibleTo || "Everyone"}
+          </small>
         </span>
         <button>${done ? "Undo" : "Unlock"}</button>
       `;
